@@ -24,7 +24,7 @@ class SearchBar extends Component {
         <div className="SearchBar-sort-options">
           <ul>{this.renderSortByOptions()}</ul>
         </div>
-        <div class="SearchBar-fields">
+        <div className="SearchBar-fields">
           <input placeholder="Search Businesses" />
           <input placeholder="Where?" />
         </div>
