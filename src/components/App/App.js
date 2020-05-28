@@ -16,22 +16,22 @@ const business = {
   reviewCount: 90,
 };
 
-const buisnessesList = [
-  business,
-  business,
-  business,
-  business,
-  business,
-  business,
-];
+const buisnesses = [business, business, business, business, business, business];
 
-function App() {
-  return (
-    <div className="App">
-      <SearchBar />
-      <BusinessList buisnessesList={buisnessesList} />
-    </div>
-  );
+class App extends React.Component {
+  searchYelp(term, location, sortBy) {
+    console.log(`Searching with ${term} ${location} ${sortBy}`);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>ravenous</h1>
+        <SearchBar searchYelp={this.searchYelp} />
+        <BusinessList buisnesses={buisnesses} />
+      </div>
+    );
+  }
 }
 
 export default App;

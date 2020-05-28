@@ -1,19 +1,71 @@
 import React, { Component } from "react";
 import "./SearchBar.css";
 
-// API spec search
-const sortByOptions = {
-  "Best Match": "best_match",
-  "Highest Rated": "rating",
-  "Most Reviewed": "review_count",
-};
-
 class SearchBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      term: "",
+      location: "",
+      sortBy: "best_match",
+    };
+
+    this.handleTermChange = this.handleTermChange.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    // API spec search
+    this.sortByOptions = {
+      "Best Match": "best_match",
+      "Highest Rated": "rating",
+      "Most Reviewed": "review_count",
+    };
+  }
+
+  getSortByClass(sortByOption) {
+    if (this.state.sortBy === sortByOption) {
+      return "active";
+    }
+    return "";
+  }
+
+  handleSortByChange(sortByOption) {
+    this.setState({
+      sortBy: sortByOption,
+    });
+  }
+
+  handleTermChange(e) {
+    this.setState({
+      term: e.target.value,
+    });
+  }
+
+  handleLocationChange(e) {
+    this.setState({
+      location: e.target.value,
+    });
+  }
+
+  handleSearch(e) {
+    this.props.searchYelp(
+      this.state.term,
+      this.state.location,
+      this.state.sortBy
+    );
+    e.preventDefault();
+  }
+
   renderSortByOptions() {
-    return Object.keys(sortByOptions).map((option) => {
-      let sortingValue = sortByOptions[option];
+    return Object.keys(this.sortByOptions).map((sortByOption) => {
+      let sortByOptionValue = this.sortByOptions[sortByOption];
       return (
-        <li key={sortingValue}>{option}</li> // key = best_match || ratng || review_count  && option = Best Match || Highest Rated etc.
+        <li
+          key={sortByOptionValue}
+          className={this.getSortByClass(sortByOptionValue)}
+          onClick={this.handleSortByChange.bind(this, sortByOptionValue)}
+        >
+          {sortByOption}
+        </li> // key = best_match || ratng || review_count  && option = Best Match || Highest Rated etc.
       );
     });
   }
@@ -25,11 +77,14 @@ class SearchBar extends Component {
           <ul>{this.renderSortByOptions()}</ul>
         </div>
         <div className="SearchBar-fields">
-          <input placeholder="Search Businesses" />
-          <input placeholder="Where?" />
+          <input
+            placeholder="Search Businesses"
+            onChange={this.handleTermChange}
+          />
+          <input placeholder="Where?" onChange={this.handleLocationChange} />
         </div>
         <div className="SearchBar-submit">
-          <a href="#">Let's Go</a>
+          <a onClick={this.handleSearch}>Let's Go</a>
         </div>
       </div>
     );
