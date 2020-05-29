@@ -7,7 +7,7 @@ class BusinessList extends Component {
     return (
       <div className="BusinessList">
         {this.props.buisnesses.map((business) => {
-          return <Business business={business} />;
+          return <Business business={business} key={business.id} />;
         })}
       </div>
     );
